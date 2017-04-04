@@ -8,19 +8,27 @@ var bowerFiles = require('main-bower-files')
 
 gulp.task('inject', function(){
   var target = gulp.src('./src/*.html');
-  var sources = gulp.src([BUILD_DIR.base + '/css/*.css', BUILD_DIR.base + '/js/*.js'], {read: false});
+  var sources = gulp.src([BUILD_DIR.base + '/css/*.css', BUILD_DIR.base + '/js/*.js'], {read: false, base: '.src/'});
 
-  var vendorFiles = gulp.src(bowerFiles({
+  var vendorCss = gulp.src(bowerFiles( '**/*.css', {
     'overrides': {
       'bootstrap': {
-        'main': ['dist/css/bootstrap.min.css', 'dist/js/bootstrap.min.js']
+        'main': ['dist/css/bootstrap.min.css']
       }
     }
-  }), {
-    read: false
-  });
+  }))
+  .pipe(gulp.dest(BUILD_DIR.css))
 
-  return target.pipe(inject(vendorFiles, {name: 'bower'}))
-    .pipe(inject(sources))
+  var vendorJS = gulp.src(bowerFiles({
+    'overrides': {
+      'bootstrap': {
+        'main': ['dist/js/bootstrap.min.js']
+      }
+    }
+  })).pipe(gulp.dest(BUILD_DIR.js));
+
+  return target.pipe(inject(vendorCss, {name: 'bower', ignorePath: BUILD_DIR.base}))
+    .pipe(inject(vendorJS, {name: 'bower', ignorePath: BUILD_DIR.base}))
+    .pipe(inject(sources, {ignorePath: BUILD_DIR.base}))
     .pipe(gulp.dest(BUILD_DIR.base));
 });

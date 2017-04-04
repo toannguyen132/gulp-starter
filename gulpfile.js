@@ -18,10 +18,11 @@ require('require-dir')('./gulp-tasks');
 /** watch **/
 gulp.task('watch', ['serve'] ,function(){
   // console.log(browserSync)
-  gulp.watch('src/scss/**/*.scss', ['scss', 'refresh-browser']);
-  gulp.watch('src/js/**/*.js', ['js', 'refresh-browser']);
+  gulp.watch('src/scss/**/*.scss', ['sass', 'inject', 'refresh-browser']);
+  gulp.watch('src/js/**/*.js', ['js', 'inject', 'refresh-browser']);
   gulp.watch('src/img/*.*', ['img', 'refresh-browser']);
-  gulp.watch(['src/fonts/*.*', 'src/*.html'], ['files', 'refresh-browser']);
+  gulp.watch('src/*.html', ['files', 'inject', 'refresh-browser']);
+  gulp.watch('src/fonts/*.*', ['files', 'refresh-browser']);
 })
 
 gulp.task('default', ['watch']);
