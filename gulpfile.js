@@ -5,16 +5,6 @@ var browserSync = require('browser-sync').create();
 
 require('require-dir')('./gulp-tasks');
 
-// gulp.task('serve', function(){
-//   browserSync.init({
-//     server: {
-//       baseDir: "./build"
-//     }
-//   });
-// })
-
-// gulp.task
-
 /** watch **/
 gulp.task('watch', ['serve'] ,function(){
   // console.log(browserSync)
